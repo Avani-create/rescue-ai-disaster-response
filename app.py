@@ -273,6 +273,7 @@ def analyze():
 # 2. Changed the last 3 lines below:
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Render provides PORT
-    app.run(host="0.0.0.0", port=port, debug=False)  # Production mode
+    from waitress import serve
+    port = int(os.environ.get("PORT", 5000))
+    serve(app, host="0.0.0.0", port=port)
 # ============= END FIX =============
