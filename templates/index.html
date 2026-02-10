@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RESCUE-AI: Intelligent Disaster Response</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, #ff4d4d, #ff9966);
+            -webkit-background-clip: text;
+            background-clip: text; 
+            -webkit-text-fill-color: transparent;
+             color: transparent; 
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(255, 77, 77, 0.3);
+        }
+        
+        .header p {
+            color: #a8dadc;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .tagline {
+            color: #ff9966;
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-top: 10px;
+        }
+        
+        .input-section {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 77, 77, 0.2);
+        }
+        
+        textarea {
+            width: 100%;
+            height: 180px;
+            padding: 20px;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255, 77, 77, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #ff4d4d;
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.2);
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff4d4d, #ff9966);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 77, 77, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .result-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 30px;
+            border-radius: 15px;
+            animation: fadeIn 0.5s ease;
+            border: 1px solid rgba(0, 180, 216, 0.2);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+        
+        .result-card.rule-based {
+            border-left-color: #00b4d8;
+        }
+        
+        .result-card.ml-based {
+            border-left-color: #6a11cb;
+        }
+        
+        .result-title {
+            color: #90e0ef;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .result-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin: 5px;
+        }
+        
+        .critical { background: #ff4d4d; }
+        .high { background: #ff9966; }
+        .medium { background: #ffcc00; color: #333; }
+        .low { background: #4cd964; }
+        
+        .example-text {
+            color: #a8dadc;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #6c757d;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .ml-badge {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        
+        .ai-badge {
+            background: linear-gradient(45deg, #00b4d8, #0077b6);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        
+        .tech-pill {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 RESCUE-AI</h1>
+            <p>Intelligent Disaster Response System using Hybrid AI-ML Architecture</p>
+            <p class="tagline">"When seconds matter, AI responds first"</p>
+            
+            <div style="margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <span class="tech-pill">🤖 Rule-based AI</span>
+                <span class="tech-pill">🧠 Machine Learning</span>
+                <span class="tech-pill">📊 Sentiment Analysis</span>
+                <span class="tech-pill">⚡ Real-time Analysis</span>
+                <span class="tech-pill">🌍 Social Impact</span>
+            </div>
+        </div>
+        
+        <div class="input-section">
+            <h2 style="color: #ff9966; margin-bottom: 20px;">📝 Describe Emergency Situation</h2>
+            <textarea id="textInput" placeholder="Example: Major flood in Delhi. Water level rising rapidly. Multiple families trapped on rooftops. Need immediate rescue boats and medical assistance. Location: Near River Road..."></textarea>
+            
+            <p class="example-text">💡 Try: "Earthquake in Mumbai, buildings collapsed, people trapped under debris, need rescue teams urgently"</p>
+            
+            <button class="btn" onclick="analyzeText()">
+                🚀 ANALYZE WITH RESCUE-AI
+            </button>
+        </div>
+        
+        <div id="result" class="result-section">
+            <h2 style="color: #90e0ef; margin-bottom: 25px; text-align: center;">📊 RESCUE-AI ANALYSIS REPORT</h2>
+            
+            <div class="result-card rule-based">
+                <div class="result-title">🚨 URGENCY LEVEL <span class="ai-badge">Rule-based AI</span></div>
+                <div class="result-content">
+                    <span id="urgency" class="badge critical">Analyzing...</span>
+                </div>
+            </div>
+            
+            <div class="result-card rule-based">
+                <div class="result-title">🌪️ DISASTER TYPE <span class="ai-badge">Rule-based AI</span></div>
+                <div class="result-content" id="type">Analyzing...</div>
+            </div>
+            
+            <div class="result-card rule-based">
+                <div class="result-title">📍 LOCATION DETECTED</div>
+                <div class="result-content" id="location">Analyzing...</div>
+            </div>
+            
+            <div class="result-card rule-based">
+                <div class="result-title">🆘 IMMEDIATE RESOURCE NEEDS</div>
+                <div class="result-content" id="needs">Analyzing...</div>
+            </div>
+            
+            <div class="result-card rule-based">
+                <div class="result-title">✅ RECOMMENDED ACTIONS</div>
+                <div class="result-content">
+                    <ul id="actions" style="list-style-type: none; padding-left: 0;">
+                        <li style="margin-bottom: 10px;">⏳ Analyzing recommendations...</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- ============= ML SECTION ============= -->
+            <div class="result-card ml-based">
+                <div class="result-title">🤖 MACHINE LEARNING ANALYSIS <span class="ml-badge">ML Models</span></div>
+                <div class="result-content">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <strong>Emotion Detection:</strong><br>
+                            <span id="ml_sentiment" style="color: #90e0ef;">Analyzing...</span>
+                        </div>
+                        <div>
+                            <strong>Emotion Score:</strong><br>
+                            <span id="ml_emotion_score" style="color: #90e0ef;">Analyzing...</span>
+                        </div>
+                        <div>
+                            <strong>ML Disaster Prediction:</strong><br>
+                            <span id="ml_disaster_type" style="color: #90e0ef;">Analyzing...</span>
+                        </div>
+                        <div>
+                            <strong>ML Severity Level:</strong><br>
+                            <span id="ml_severity" style="color: #90e0ef;">Analyzing...</span>
+                        </div>
+                        <div>
+                            <strong>Severity Score (1-10):</strong><br>
+                            <span id="severity_score" style="color: #90e0ef;">Analyzing...</span>
+                        </div>
+                        <div>
+                            <strong>ML Model Confidence:</strong><br>
+                            <span id="ml_confidence" style="color: #90e0ef;">Analyzing...</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(106, 17, 203, 0.1); border-radius: 8px;">
+                        <small>🤖 <strong>ML Models Used:</strong> Naive Bayes Classifier (Disaster Type) + Decision Tree (Severity) + TextBlob (Sentiment)<br>
+                        Trained on custom disaster dataset using scikit-learn</small>
+                    </div>
+                </div>
+            </div>
+            <!-- ============= END ML SECTION ============= -->
+            
+            <button class="btn" onclick="analyzeAgain()" style="background: linear-gradient(45deg, #6a11cb, #2575fc); margin-top: 20px;">
+                🔄 ANALYZE ANOTHER SITUATION
+            </button>
+        </div>
+        
+        <div class="footer">
+            <p>⚠️ <strong>Important:</strong> RESCUE-AI is for initial assessment only. Always contact official emergency services (112/108) in critical situations.</p>
+            <p>Microsoft Azure Internship Project | RESCUE-AI v1.0 | Hybrid AI-ML System for Social Good</p>
+        </div>
+    </div>
+    
+    <script>
+        async function analyzeText() {
+            const text = document.getElementById('textInput').value.trim();
+            
+            if (!text) {
+                alert('Please describe the emergency situation first.');
+                return;
+            }
+            
+            // Show loading state
+            document.getElementById('urgency').textContent = 'Analyzing...';
+            document.getElementById('urgency').className = 'badge medium';
+            document.getElementById('result').style.display = 'block';
+            
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({text: text})
+                });
+                
+                const data = await response.json();
+                
+                // Update UI with results - RULE-BASED AI
+                document.getElementById('urgency').textContent = data.urgency;
+                document.getElementById('urgency').className = 'badge ' + 
+                    (data.urgency.includes('CRITICAL') ? 'critical' : 
+                     data.urgency.includes('HIGH') ? 'high' :
+                     data.urgency.includes('MEDIUM') ? 'medium' : 'low');
+                
+                document.getElementById('type').textContent = data.type;
+                document.getElementById('location').textContent = data.location;
+                document.getElementById('needs').innerHTML = data.needs.map(need => 
+                    `<span style="background: #4361ee; padding: 8px 15px; border-radius: 20px; margin: 5px; display: inline-block;">${need}</span>`
+                ).join('');
+                
+                const actionsList = document.getElementById('actions');
+                actionsList.innerHTML = '';
+                data.actions.forEach(action => {
+                    const li = document.createElement('li');
+                    li.style.marginBottom = '10px';
+                    li.style.padding = '10px';
+                    li.style.background = 'rgba(255,255,255,0.05)';
+                    li.style.borderRadius = '8px';
+                    li.innerHTML = `✅ ${action}`;
+                    actionsList.appendChild(li);
+                });
+                
+                // ============= UPDATE ML RESULTS =============
+                if (data.ml_analysis) {
+                    document.getElementById('ml_sentiment').textContent = data.ml_analysis.sentiment;
+                    document.getElementById('ml_emotion_score').textContent = data.ml_analysis.emotion_score;
+                    document.getElementById('ml_disaster_type').textContent = data.ml_analysis.ml_disaster_type;
+                    document.getElementById('ml_severity').textContent = data.ml_analysis.ml_severity;
+                    document.getElementById('severity_score').textContent = data.ml_analysis.severity_score;
+                    document.getElementById('ml_confidence').textContent = data.ml_analysis.ml_confidence;
+                }
+                // ============= END ML RESULTS =============
+                
+            } catch (error) {
+                alert('Error analyzing text. Please try again.');
+                console.error(error);
+            }
+        }
+        
+        function analyzeAgain() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('textInput').focus();
+        }
+    </script>
+</body>
+</html>

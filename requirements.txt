@@ -1,0 +1,6 @@
+flask==2.3.3
+textblob
+nltk
+requests
+pillow
+scikit-learn==1.5.2
