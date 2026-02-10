@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import re
+import os  # ← ADDED THIS LINE
 
 # ============= ML IMPORTS =============
 from textblob import TextBlob
@@ -266,5 +267,12 @@ def analyze():
     result = simple_ai_analysis(text)
     return jsonify(result)
 
+# ============= FIX FOR RENDER DEPLOYMENT =============
+# CHANGES MADE:
+# 1. Added 'import os' at top (line 3)
+# 2. Changed the last 3 lines below:
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))  # Render provides PORT
+    app.run(host="0.0.0.0", port=port, debug=False)  # Production mode
+# ============= END FIX =============
