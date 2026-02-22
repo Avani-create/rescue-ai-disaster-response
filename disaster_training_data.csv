@@ -1,0 +1,25 @@
+text,disaster_type,severity
+flood water rising help emergency,FLOOD,
+flood river overflow house underwater,FLOOD,
+flood rain continuous flooding street,FLOOD,
+earthquake building collapse tremor,EARTHQUAKE,
+earthquake ground shaking house damage,EARTHQUAKE,
+earthquake seismic aftershock dangerous,EARTHQUAKE,
+fire blaze burning house rescue,FIRE,
+fire smoke forest wildfire spread,FIRE,
+fire emergency flames building,FIRE,
+storm cyclone hurricane wind damage,STORM,
+storm rain flood wind speed,STORM,
+storm thunder lightning trees fallen,STORM,
+landslide mudslide hill collapse,LANDSLIDE,
+landslide earth movement road blocked,LANDSLIDE,
+landslide rain soil house destroyed,LANDSLIDE,
+people trapped dying help now,,10
+urgent immediate rescue needed,,9
+many injured hospital needed,,8
+serious damage help required,,7
+need assistance situation bad,,6
+problem issue some damage,,5
+minor issue no injuries,,3
+information query question,,2
+just reporting situation calm,,1
